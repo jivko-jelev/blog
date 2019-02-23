@@ -19,7 +19,7 @@
                         In <a href="{{ strtolower(route('blogs.order1', $blog->category())) }}"><strong>{{ $blog->category() }}</strong></a> category.
                             Has
                         @if(count($blog->comments)==0) 0 comments
-                        @else <a href="{{ route( 'blogs.show', $blog->id) }}#comments" class="comments">{!! count($blog->comments) !!}@if(count($blog->comments)>1) comments @else comment @endif</a>
+                        @else <a href="{{ route( 'blogs.show', $blog->permalink) }}#comments" class="comments">{!! count($blog->comments) !!}@if(count($blog->comments)>1) comments @else comment @endif</a>
                         @endif
                     </span>
                     <div class="blog-description">
