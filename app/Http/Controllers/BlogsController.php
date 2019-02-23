@@ -55,7 +55,7 @@ class BlogsController extends Controller
         $blog->category_id = $request->input('category');
         $blog->title = $request->input('title');
         $blog->description = $request->input('description');
-        $blog->permalink = self::getUniquePermalink($request['title']);
+        $blog->permalink = mb_strtolower(self::getUniquePermalink($request['title']));
         $blog->user_id = Auth::id();
         $blog->updated_at = null;
         $blog->save();
