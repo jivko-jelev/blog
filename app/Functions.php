@@ -77,10 +77,11 @@ class Functions
                 return ' active';
             }
         }
-        if(request()->routeIs('blogs.show')){
-            if(Blog::find(Route::current()->parameters()[Route::current()->parameternames()[0]])->category() == $parameter){
-                return ' active';
-            }
-        }
+
+//        if(request()->routeIs('blogs.show')){
+//            if(Blog::find(Route::current()->parameters()[Route::current()->parameternames()[0]])->category() == $parameter){
+//                return ' active';
+//            }
+//        }
     }
 }

@@ -19,6 +19,7 @@ class CreateBlogsTable extends Migration
             $table->text('description');
             $table->integer('category_id')->unsigned();
             $table->integer('user_id')->unsigned();
+            $table->string('permalink')->unique();
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

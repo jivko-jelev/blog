@@ -12,11 +12,11 @@
             @include('partials.search')
             @if(isset($blogs))
                 @foreach($blogs as $blog)
-                    <a href="{{ route( 'blogs.show', $blog->id) }}"><h3 class="blog-title">{!! $blog->printtitle() !!}</h3></a>
+                    <a href="{{ route( 'blogs.show', $blog->permalink) }}"><h3 class="blog-title">{!! $blog->printtitle() !!}</h3></a>
                     <span>Posted by
                         <a href="{{ route('profile.user', \App\User::find($blog->user_id)->name) }}"><strong>{{ \App\User::find($blog->user_id)->name }}</strong></a>.
                         <a href="#"><strong>{!! App\Functions::humanReadableDateTime($blog->created_at) !!}</strong></a>.
-                        In <a href="{{ route('blogs.order1', $blog->category()) }}"><strong>{{ $blog->category() }}</strong></a> category.
+                        In <a href="{{ strtolower(route('blogs.order1', $blog->category())) }}"><strong>{{ $blog->category() }}</strong></a> category.
                             Has
                         @if(count($blog->comments)==0) 0 comments
                         @else <a href="{{ route( 'blogs.show', $blog->id) }}#comments" class="comments">{!! count($blog->comments) !!}@if(count($blog->comments)>1) comments @else comment @endif</a>

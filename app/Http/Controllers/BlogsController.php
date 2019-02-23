@@ -21,52 +21,72 @@ class BlogsController extends Controller
         return view('create-post');
     }
 
+    public static function isRepeatingPermalink($objects, $str)
+    {
+        foreach ($objects as $obj) {
+            if ($obj->permalink === $str) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static function getUniquePermalink($title)
+    {
+        if (Blog::where('permalink', $title)->get()->count() == 0) {
+            return $title;
+        }
+        $categories = Blog::where('permalink', 'like', $title . '%')->get();
+        $count = 0;
+        while ((self::isRepeatingPermalink($categories, $title . '-' . ++$count))) {
+        }
+        return $title . '-' . $count;
+    }
+
     public function store(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'category' => 'required',
             'title' => 'required|min:3|max:100',
             'description' => 'required|max:65535',
         ]);
 
-        $category = new Blog;
-        $category->category_id = $request->input('category');
-        $category->title = $request->input('title');
-        $category->description = $request->input('description');
-        $category->user_id = Auth::id();
-        $category->updated_at = null;
-        $category->save();
+        $blog = new Blog;
+        $blog->category_id = $request->input('category');
+        $blog->title = $request->input('title');
+        $blog->description = $request->input('description');
+        $blog->permalink = self::getUniquePermalink($request['title']);
+        $blog->user_id = Auth::id();
+        $blog->updated_at = null;
+        $blog->save();
 
-        $categoryName = Category::find($category->category_id)->title;
+        $categoryName = Category::find($blog->category_id)->title;
 
-        return redirect('category/' . strtolower($categoryName))->with('message',  'Succesfuly created post');
+        return redirect('category/' . strtolower($categoryName))->with('message', 'Succesfuly created post');
     }
 
     public function show($id)
     {
-        $blog = Blog::find($id);
-//        dd($blog->user_id);
-//        dd(Category::where('id', $blog->category_id)->first()->title);
+        $blog = Blog::where('permalink', $id)->first();
         return view('post')->with(['blog' => $blog, 'category_title' => Category::find($blog->category_id)->title]);
     }
 
     public function search(Request $request, $category = null)
     {
         $orderBy = $request->get('order-by') == null || $request->get('order-by') == 'New Posts' ? 'desc' : 'asc';
-//        dd($orderBy);
         $category_id = $category !== null ? Category::where('title', $category)->first()->id : null;
 
 
-        $blogs='';
-        if($request->get('order-by')=='Most Commented'){
-            $blogs=Blog::
-                select('blogs.*', DB::raw('count(*) as user_comments'))
+        $blogs = '';
+        if ($request->get('order-by') == 'Most Commented') {
+            $blogs = Blog::
+            select('blogs.*', DB::raw('count(*) as user_comments'))
                 ->leftJoin('comments', 'blogs.id', '=', 'comments.blog_id')
                 ->whereraw('title LIKE ? OR description LIKE ?', ['%' . $request->get('search') . '%', '%' . $request->get('search') . '%'])
                 ->groupBy('blogs.id')
                 ->orderBy('user_comments', 'desc')
                 ->get();
-        }else {
+        } else {
             $blogs = ($category_id !== null ?
                 Blog::whereraw('category_id = ? AND ( title LIKE ? OR description LIKE ? )', [$category_id, '%' . $request->get('search') . '%', '%' . $request->get('search') . '%']) :
                 Blog::whereraw('title LIKE ? OR description LIKE ?', ['%' . $request->get('search') . '%', '%' . $request->get('search') . '%'])
@@ -79,46 +99,49 @@ class BlogsController extends Controller
         return view('welcome')->with('blogs', $blogs);
     }
 
-    public static function getNumResults(){
-        switch (request()->{'num-results'}){
+    public static function getNumResults()
+    {
+        switch (request()->{'num-results'}) {
             case 20:
             case 50:
-            case 100:return request()->{'num-results'};
-            default : return 10;
+            case 100:
+                return request()->{'num-results'};
+            default :
+                return 10;
         }
     }
 
     public function order(Request $request, $category = null)
     {
         $category_id = null;
-        if($category !== null) {
-            if(Category::where('title', $category)->first() !== null) {
+        if ($category !== null) {
+            if (Category::where('title', $category)->first() !== null) {
                 $category_id = Category::where('title', $category)->first()->id;
-                if($request['order-by']=='Most Commented') {
-                    $blogs=Blog::where('category_id', $category_id)
+                if ($request['order-by'] == 'Most Commented') {
+                    $blogs = Blog::where('category_id', $category_id)
                         ->select('blogs.*', DB::raw('count(*) as user_comments'))
                         ->leftJoin('comments', 'blogs.id', '=', 'comments.blog_id')
                         ->groupBy('blogs.id')
                         ->orderBy('user_comments', 'desc')
                         ->get();
-                }else if($request['order-by']=='Old Posts') {
+                } else if ($request['order-by'] == 'Old Posts') {
                     $blogs = Blog::where('category_id', $category_id)->orderBy('created_at', 'asc')->paginate(self::getNumResults());
-                }else{
+                } else {
                     $blogs = Blog::where('category_id', $category_id)->orderBy('created_at', 'desc')->paginate(self::getNumResults());
                 }
             }
-        }else {
-            if($request['order-by']=='Most Commented') {
-                $blogs=Blog::
-                    select('blogs.*', DB::raw('count(*) as user_comments'))
+        } else {
+            if ($request['order-by'] == 'Most Commented') {
+                $blogs = Blog::
+                select('blogs.*', DB::raw('count(*) as user_comments'))
                     ->leftJoin('comments', 'blogs.id', '=', 'comments.blog_id')
                     ->groupBy('blogs.id')
                     ->orderBy('user_comments', 'desc')
                     ->get();
 
-            }else if($request['order-by']=='Old Posts') {
+            } else if ($request['order-by'] == 'Old Posts') {
                 $blogs = Blog::orderBy('created_at', 'asc')->paginate(self::getNumResults());
-            }else{
+            } else {
                 $blogs = Blog::orderBy('created_at', 'desc')->paginate(self::getNumResults());
             }
         }
@@ -127,13 +150,13 @@ class BlogsController extends Controller
 
     public function update(Request $request, $id)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'category' => 'required',
             'title' => 'required|min:3|max:100',
             'description' => 'required|max:65535|min:10',
         ]);
 
-        $blog=Blog::find($id);
+        $blog = Blog::find($id);
         $blog->title = $request->get('title');
         $blog->description = $request->get('description');
         $blog->category_id = $request->get('category');
@@ -149,7 +172,7 @@ class BlogsController extends Controller
 
     public function destroy($id)
     {
-        $cat_id=Category::find(Blog::find($id)->category_id)->title;
+        $cat_id = Category::find(Blog::find($id)->category_id)->title;
         Blog::destroy($id);
         return redirect()->back()->with('message', 'Successfully deleted post!');
     }

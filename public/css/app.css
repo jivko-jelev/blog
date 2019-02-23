@@ -109,3 +109,7 @@ footer h5{
 .comments{
     font-weight: bold;
 }
+
+.blog-wrap > hr{
+    margin: 22px -22px;
+}

@@ -10,9 +10,9 @@
             <div class="col-sm-11 col-sm-offset-1" style="border: 1px solid #ccc; padding: 0; margin-bottom: 10px;">
                 <div class="blog-wrap">
                     <h1 class="blog-title2">{{ $blog->title }}</h1>
-                    <div class="blog-info">
+                    <div class="blog-info pull-right" style="margin-top: -11px; ">
                         <div class="form-inline" >
-                            <span style="color: lightgrey; font-weight: normal">PUBLISHED {{ App\Functions::humanReadableDateTime($blog->created_at) }} by </span>
+                            <span style="color: lightgrey; font-weight: normal;">Published {{ App\Functions::humanReadableDateTime($blog->created_at) }} by </span>
                             <span style="color: lightgrey; font-weight: normal"><strong><a href="{{ URL::to('profile/' . \App\User::find($blog->user_id)->name) }}">{{ \App\User::find($blog->user_id)->name }}</a></strong></span>
                         </div>
                     </div>
