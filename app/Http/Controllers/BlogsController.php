@@ -80,7 +80,7 @@ class BlogsController extends Controller
         $blogs = '';
         if ($request->get('order-by') == 'Most Commented') {
             $blogs = Blog::
-            select('blogs.*', DB::raw('count(*) as user_comments'))
+            select('blogs.*', DB::raw('count(comments.blog_id) as user_comments'))
                 ->leftJoin('comments', 'blogs.id', '=', 'comments.blog_id')
                 ->whereraw('title LIKE ? OR description LIKE ?', ['%' . $request->get('search') . '%', '%' . $request->get('search') . '%'])
                 ->groupBy('blogs.id')
@@ -119,7 +119,7 @@ class BlogsController extends Controller
                 $category_id = Category::where('title', $category)->first()->id;
                 if ($request['order-by'] == 'Most Commented') {
                     $blogs = Blog::where('category_id', $category_id)
-                        ->select('blogs.*', DB::raw('count(*) as user_comments'))
+                        ->select('blogs.*', DB::raw('count(comments.blog_id) as user_comments'))
                         ->leftJoin('comments', 'blogs.id', '=', 'comments.blog_id')
                         ->groupBy('blogs.id')
                         ->orderBy('user_comments', 'desc')
@@ -133,12 +133,11 @@ class BlogsController extends Controller
         } else {
             if ($request['order-by'] == 'Most Commented') {
                 $blogs = Blog::
-                select('blogs.*', DB::raw('count(*) as user_comments'))
+                select('blogs.*', DB::raw('count(comments.blog_id) as user_comments'))
                     ->leftJoin('comments', 'blogs.id', '=', 'comments.blog_id')
                     ->groupBy('blogs.id')
                     ->orderBy('user_comments', 'desc')
                     ->get();
-
             } else if ($request['order-by'] == 'Old Posts') {
                 $blogs = Blog::orderBy('created_at', 'asc')->paginate(self::getNumResults());
             } else {
