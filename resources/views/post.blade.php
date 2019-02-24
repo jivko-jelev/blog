@@ -2,6 +2,14 @@
 
 @section('title'){{ $blog->title() }}@endsection
 
+@section('styles')
+    <style>
+        textarea.form-control {
+            max-width: 100%;
+        }
+    </style>
+@endsection
+
 @section('content')
     <div class="col-sm-12" style="padding-left: 0; padding-right: 0;">
         @include('partials.left-menu')
@@ -11,9 +19,11 @@
                 <div class="blog-wrap">
                     <h1 class="blog-title2">{{ $blog->title }}</h1>
                     <div class="blog-info pull-right" style="margin-top: -11px; ">
-                        <div class="form-inline" >
-                            <span style="color: lightgrey; font-weight: normal;">Published {{ App\Functions::humanReadableDateTime($blog->created_at) }} by </span>
-                            <span style="color: lightgrey; font-weight: normal"><strong><a href="{{ URL::to('profile/' . \App\User::find($blog->user_id)->name) }}">{{ \App\User::find($blog->user_id)->name }}</a></strong></span>
+                        <div class="form-inline">
+                            <span style="color: lightgrey; font-weight: normal;">Published {{ App\Functions::humanReadableDateTime($blog->created_at) }}
+                                by </span>
+                            <span style="color: lightgrey; font-weight: normal"><strong><a
+                                            href="{{ URL::to('profile/' . \App\User::find($blog->user_id)->name) }}">{{ \App\User::find($blog->user_id)->name }}</a></strong></span>
                         </div>
                     </div>
                     <hr>
@@ -24,6 +34,7 @@
             </div>
             <p><a name="comments"></a></p>
             <div class="col-sm-11 col-sm-offset-1" style="padding: 0;">
+                <h2>Comments</h2>
                 <div class="comments-wrap">
                     @foreach ($blog->comments as $comment)
                         <div class="comment-wrap">
@@ -34,7 +45,8 @@
                                 <span style="color: lightgrey; font-weight: normal">{{ \App\Functions::humanReadableDateTime($comment->created_at) }}</span>
                                 @if (Auth::check() && Auth::user()->isadmin())
                                     <form action="{{ route('comments.destroy', $comment->id) }}" method="POST">
-                                        <input type="submit" id="submit" value="Delete" name="submit" style="background-color: darkred; color:#fff; float: right; top: -22px; left: -10px; height: 20px; font-size: 11px; position:relative;">
+                                        <input type="submit" id="submit" value="Delete" name="submit"
+                                               style="background-color: darkred; color:#fff; float: right; top: -22px; left: -10px; height: 20px; font-size: 11px; position:relative;">
                                         {{ csrf_field() }}
                                         <input type="hidden" value="DELETE" name="_method">
                                     </form>
@@ -61,7 +73,8 @@
                     </div>
                 </div>
             @else
-                <p style="text-align: center;"><a href="{{ route('login') }}">Sign in</a> to participate in this thread!</p>
+                <p style="text-align: center;"><a href="{{ route('login') }}">Sign in</a> to participate in this thread!
+                </p>
             @endif
         </div>
     </div>

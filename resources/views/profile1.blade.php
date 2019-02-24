@@ -1,13 +1,12 @@
 @extends('layouts.master')
 
-@section('title'){{ Auth::user()->name }}@endsection
+@section('title'){{ $user->name }}@endsection
 
 @section('content')
-    <div class="col-sm-10" style="min-width: 790px; padding-top: 10px; border: 1px solid #ccc; margin-bottom: 50px; ">
+    <div class="col-sm-10" style="padding-top: 10px; border: 1px solid #ccc; margin-bottom: 50px; ">
             @include('partials.session-messages')
             <div class="settings-page settings-page-profile">
                 <div class="col-sm-12">
-                    <div class="col-lg-12">
                         <div class="col-sm-3">
                             <h2 translate>Avatar:</h2>
                             <div style="border: 1px solid #ccc; padding: 10px;">
@@ -37,7 +36,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
                 </div>
             </div>
     </div>

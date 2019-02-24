@@ -65,7 +65,7 @@ class Blog extends Eloquent
         if (request()->get('search') !== null) {
             $this->str_insert($description, request()->get('search'));
         }
-        return $description . '<a href="' . route('blogs.show', $this->id) . '">' . (mb_strlen(html_entity_decode(strip_tags($this->description))) >= 253 ? '<strong> Read More&raquo;</strong>' : '') . '</a>';
+        return $description . '<a href="' . route('blogs.show', $this->permalink) . '">' . (mb_strlen(html_entity_decode(strip_tags($this->description))) >= 253 ? '<strong> Read More&raquo;</strong>' : '') . '</a>';
     }
 
     public function dateCreated()

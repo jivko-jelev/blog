@@ -23,9 +23,6 @@ Route::get('/category/{title}/search/', 'BlogsController@search')->name('blogs.s
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function() {
     Route::get('category/create', 'CategoriesController@create')->name('category.create');
     Route::post('category', 'CategoriesController@store')->name('category.store');
-});
-
-Route::group(['prefix' => 'admin', 'middleware' => ['admin']], function() {
     Route::get('categorylist', 'CategoriesController@index')->name('category.index');
     Route::put('category/{id}', 'CategoriesController@update')->name('category.update');
     Route::delete('category/{id}', 'CategoriesController@destroy')->name('category.destroy');

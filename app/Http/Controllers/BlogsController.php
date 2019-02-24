@@ -85,7 +85,7 @@ class BlogsController extends Controller
                 ->whereraw('title LIKE ? OR description LIKE ?', ['%' . $request->get('search') . '%', '%' . $request->get('search') . '%'])
                 ->groupBy('blogs.id')
                 ->orderBy('user_comments', 'desc')
-                ->get();
+                ->paginate(self::getNumResults());
         } else {
             $blogs = ($category_id !== null ?
                 Blog::whereraw('category_id = ? AND ( title LIKE ? OR description LIKE ? )', [$category_id, '%' . $request->get('search') . '%', '%' . $request->get('search') . '%']) :
@@ -95,7 +95,7 @@ class BlogsController extends Controller
         }
 
 //        dd($blogs);
-        $blogs->withPath(Functions::withPath());
+//        $blogs->withPath(Functions::withPath());
         return view('welcome')->with('blogs', $blogs);
     }
 
