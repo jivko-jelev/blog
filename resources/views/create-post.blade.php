@@ -18,6 +18,11 @@
             'bullist numlist outdent indent | ' + 'link image | print preview media fullpage | forecolor backcolor emoticons | code codesample',
         });
     </script>
+    <style>
+        form > select, form > input {
+            margin-bottom: 10px;
+        }
+    </style>
 @endsection
 
 
@@ -27,8 +32,7 @@
         <div class="col-sm-8 col-sm-offset-1">
             @include('partials.session-messages')
             {{ Form::open(['route' => 'blogs.store'], ['method'=>'post', 'class' => 'form-inline']) }}
-            {{ Form::label('title', 'Title') }}
-            {{ Form::text('title', null, ['class' => 'form-control']) }}
+            {{ Form::text('title', null, ['class' => 'form-control', 'placeholder' => 'Title']) }}
             <select name="category" id="" class="form-control">
                 @foreach(\App\Category::get() as $cat)
                     <option value="{{ $cat->id }}" @if($cat->id==old('category')) selected="selected" @endif >{{ $cat->title }}</option>

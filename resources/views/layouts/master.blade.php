@@ -9,6 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
     <link rel="icon" href="{{ URL::to('iconfinder_laravel_1006880.png') }}">
+    <link rel="stylesheet" type="text/css" href="{{ URL::to('css/prism.css') }}">
 
     <script>
         window.Laravel = {!! json_encode([

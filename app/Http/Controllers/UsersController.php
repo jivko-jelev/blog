@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Functions;
-use Faker\Provider\DateTime;
 use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\Input;
-use Intervention\Image\ImageManager;
 use URL;
 use Carbon\Carbon;
 use File;
@@ -75,7 +72,7 @@ class UsersController extends Controller
         $user->status=$request->input('status');
         $user->update();
 
-        return redirect()->route('admin-users')->with(['message' => 'Success']);
+        return redirect()->route('admin-users')->with(['message' => 'User was successfully updated']);
     }
 
     public function show()
@@ -97,7 +94,8 @@ class UsersController extends Controller
     {
         $this->validate($request, [
             'email' => 'required|email|min:3|max:50|unique:users,email,' . Auth::user()->id,
-            'password' => 'nullable|string|min:6|max:15|confirmed',
+            'password' => 'nullable|same:password_confirmation',
+            'password_confirmation' => 'nullable|same:password',
         ]);
 
         $user = Auth::user();
@@ -107,12 +105,12 @@ class UsersController extends Controller
         }
         $user->updated_at= Carbon::now();
         $user->save();
-        return redirect()->route('profile')->with(['message' => 'Success']);
+        return redirect()->route('profile')->with(['message' => 'User was successfully updated']);
     }
 
     public function destroy($id)
     {
         User::destroy($id);
-        return redirect()->route('admin-users')->with(['message' => 'Success']);
+        return redirect()->route('admin-users')->with(['message' => 'User was successfully deleted']);
     }
 }

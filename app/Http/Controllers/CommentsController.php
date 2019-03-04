@@ -23,10 +23,9 @@ class CommentsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'message' => 'required|max:4096',
+            'message' => 'required|max:4096|min:2',
         ]);
 
-//        dd(Carbon::now()->toDateTimeString());
         $comment = new Comment;
         $comment->message = $request->get('message');
         $comment->user_id = Auth::id();
@@ -34,7 +33,7 @@ class CommentsController extends Controller
         $comment->created_at = Carbon::now();
         $comment->save();
 
-        return redirect()->back()->with('message',  'Succesfuly added comment');
+        return redirect()->back()->with('message',  'The comment was successfully added');
     }
 
     public function show($id)
@@ -55,9 +54,6 @@ class CommentsController extends Controller
     public function destroy($id)
     {
         Comment::destroy($id);
-        //$comment = Comment::find($id);
-        //$comment->delete();
-
-        return redirect()->back()->with(['message' =>  'Succesfuly delete comment']);
+        return redirect()->back()->with(['message' =>  'The comment was successfully deleted']);
     }
 }

@@ -31,8 +31,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(
     Route::put('store/{id}', 'UsersController@store')->name('user.store');
     Route::delete('destroy/{id}', 'UsersController@destroy')->name('user.destroy');
 
-    Route::get('post/{id}/edit', 'BlogsController@edit')->name('blogs.edit');
+    Route::get('post/{permalink}/edit', 'BlogsController@edit')->name('blogs.edit');
     Route::delete('post/{id}', 'BlogsController@destroy')->name('blogs.destroy');
-    Route::put('post/{id}', 'BlogsController@update')->name('blogs.update');
+    Route::put('post/{permalink}', 'BlogsController@update')->name('blogs.update');
 });
 

@@ -12,7 +12,7 @@
     @if(Auth::user()->isadmin())
             <div class="col-sm-8 col-sm-offset-2" style="padding-left: 0; padding-right: 0;">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Edit/Delete Category</div>
+                    <div class="panel-heading" style="margin-bottom: 10px;">Edit/Delete Category</div>
                     @foreach(App\Category::all() as $category)
                         <div class="panel-body" style="padding: 0 10px 10px 10px;">
                            <table style="width: 100%;">

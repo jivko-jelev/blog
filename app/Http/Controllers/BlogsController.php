@@ -33,6 +33,7 @@ class BlogsController extends Controller
 
     public static function getUniquePermalink($title)
     {
+        $title = mb_strtolower($title);
         if (Blog::where('permalink', $title)->get()->count() == 0) {
             return $title;
         }
@@ -75,9 +76,7 @@ class BlogsController extends Controller
     {
         $orderBy = $request->get('order-by') == null || $request->get('order-by') == 'New Posts' ? 'desc' : 'asc';
         $category_id = $category !== null ? Category::where('title', $category)->first()->id : null;
-
-
-        $blogs = '';
+        $blogs = null;
         if ($request->get('order-by') == 'Most Commented') {
             $blogs = Blog::
             select('blogs.*', DB::raw('count(comments.blog_id) as user_comments'))
@@ -94,8 +93,6 @@ class BlogsController extends Controller
                     ->paginate(self::getNumResults()));
         }
 
-//        dd($blogs);
-//        $blogs->withPath(Functions::withPath());
         return view('welcome')->with('blogs', $blogs);
     }
 
@@ -114,16 +111,18 @@ class BlogsController extends Controller
     public function order(Request $request, $category = null)
     {
         $category_id = null;
+        $blogs = null;
         if ($category !== null) {
             if (Category::where('title', $category)->first() !== null) {
                 $category_id = Category::where('title', $category)->first()->id;
+
                 if ($request['order-by'] == 'Most Commented') {
                     $blogs = Blog::where('category_id', $category_id)
                         ->select('blogs.*', DB::raw('count(comments.blog_id) as user_comments'))
                         ->leftJoin('comments', 'blogs.id', '=', 'comments.blog_id')
                         ->groupBy('blogs.id')
                         ->orderBy('user_comments', 'desc')
-                        ->get();
+                        ->paginate(self::getNumResults());
                 } else if ($request['order-by'] == 'Old Posts') {
                     $blogs = Blog::where('category_id', $category_id)->orderBy('created_at', 'asc')->paginate(self::getNumResults());
                 } else {
@@ -137,17 +136,21 @@ class BlogsController extends Controller
                     ->leftJoin('comments', 'blogs.id', '=', 'comments.blog_id')
                     ->groupBy('blogs.id')
                     ->orderBy('user_comments', 'desc')
-                    ->get();
+                    ->paginate(self::getNumResults());
             } else if ($request['order-by'] == 'Old Posts') {
                 $blogs = Blog::orderBy('created_at', 'asc')->paginate(self::getNumResults());
             } else {
                 $blogs = Blog::orderBy('created_at', 'desc')->paginate(self::getNumResults());
             }
         }
-        return view('welcome')->with(['blogs' => $blogs, 'category_title' => $category]);
+
+        return view('welcome')->with([
+            'blogs' => $blogs,
+            'category_title' => $category,
+        ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $permalink)
     {
         $this->validate($request, [
             'category' => 'required',
@@ -155,18 +158,18 @@ class BlogsController extends Controller
             'description' => 'required|max:65535|min:10',
         ]);
 
-        $blog = Blog::find($id);
+        $blog = Blog::where('permalink', $permalink)->first();
         $blog->title = $request->get('title');
         $blog->description = $request->get('description');
         $blog->category_id = $request->get('category');
         $blog->update();
 
-        return redirect()->route('blogs.show', $id)->with('message', 'Successfully edited post!');
+        return redirect()->route('blogs.show', $permalink)->with('message', 'Successfully edited post!');
     }
 
-    public function edit($id)
+    public function edit($permalink)
     {
-        return view('edit-post')->with('blog', Blog::find($id));
+        return view('edit-post')->with('blog', Blog::where('permalink', $permalink)->first());
     }
 
     public function destroy($id)

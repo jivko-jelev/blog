@@ -42,8 +42,8 @@ class Blog extends Eloquent
                 $pos = stripos($str, $searchStr, $pos);
                 $pos1 = stripos($str, $searchStr, $pos) + strlen($searchStr);
                 $str = substr_replace($str, '</strong>', $pos1, 0);
-                $str = substr_replace($str, '<strong style="border-radius: 5px; background-color: rgb(255,174,169);">', $pos, 0);
-                $pos += strlen('<strong style="border-radius: 5px; background-color: rgb(255,174,169);"></strong>');
+                $str = substr_replace($str, '<strong style="border-radius: 10px; background-color: rgb(255,174,169);">', $pos, 0);
+                $pos += strlen('<strong style="border-radius: 10px; background-color: rgb(255,174,169);"></strong>');
             }
         }
     }

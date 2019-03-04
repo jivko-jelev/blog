@@ -38,19 +38,19 @@
                                 <div style="padding: 10px 10px 10px 20px;">
                                     {{ Form::open(['route' => 'profile.update']) }}
                                     <div class="form-group row">
-                                        {{ Form::label('email', 'Email', array('class' => 'col-sm-3 form-control-label', 'style' => 'margin-top: 14px;')) }}
+                                        {{ Form::label('email', 'Email', array('class' => 'col-sm-3 form-control-label profile-fields', 'style' => 'margin-top: 14px;')) }}
                                         <div class="col-sm-9">
-                                            {{ Form::text('email', Auth::user()->email, array('id'=>'email','class' => 'form-control', 'placeholder' => 'Email')) }}
+                                            {{ Form::text('email', old('email', Auth::user()->email), array('id'=>'email','class' => 'form-control', 'placeholder' => 'Email')) }}
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        {{ Form::label('password', 'Password', array('class' => 'col-sm-3 form-control-label', 'style' => 'margin-top: 14px;')) }}
+                                        {{ Form::label('password', 'Password', array('class' => 'col-sm-3 form-control-label profile-fields', 'style' => 'margin-top: 14px;')) }}
                                         <div class="col-sm-9">
                                             {{ Form::password('password', array('class' => 'form-control', 'placeholder' => 'Password', 'id' => 'password')) }}
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        {{ Form::label('password_confirmation', 'Password', array('class' => 'col-sm-3 form-control-label', 'style' => 'margin-top: 14px;')) }}
+                                        {{ Form::label('password_confirmation', 'Password', array('class' => 'col-sm-3 form-control-label profile-fields', 'style' => 'margin-top: 14px;')) }}
                                         <div class="col-sm-9">
                                             {{ Form::password('password_confirmation', array('class' => 'form-control', 'placeholder' => 'Password Confirmation', 'id' => 'password_confirmation')) }}
                                         </div>

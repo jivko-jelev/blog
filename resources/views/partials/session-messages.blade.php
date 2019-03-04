@@ -2,14 +2,14 @@
     <div class="col-sm-8 col-sm-offset-2">
         <div class="alert alert-danger">
             @foreach($errors->all() as $error)
-                <p>{{ $error }}</p>
+                <span>{{ $error }}</span><br>
             @endforeach
         </div>
     </div>
 @endif
 @if(session('message'))
     <div class="col-sm-8 col-sm-offset-2">
-        <div class="alert alert-info">
+        <div class="alert alert-success">
             {{ session('message') }}
         </div>
     </div>

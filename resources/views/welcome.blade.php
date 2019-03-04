@@ -7,7 +7,7 @@
 @section('content')
     <div class="col-sm-12" style="padding-left: 0; padding-right: 0;">
         @include('partials.left-menu')
-        <div class="col-sm-8 col-sm-offset-1">
+        <div class="col-sm-10">
             @include('partials.session-messages')
             @include('partials.search')
             @if(isset($blogs))
@@ -26,21 +26,22 @@
                         {!! $blog->printDescription() !!}
                     </div>
 
-                @if(Auth::check() && Auth::user()->isadmin())
-                    <div style="display: inline-block;">
-                        <form action="{{ route('blogs.destroy', $blog->id) }}" method="post" class="form-inline">
-                            <input type="hidden" name="_method" value="DELETE">
-                            {{ csrf_field() }}
-                            <button type="submit" class="btn btn-danger btn-xs" style="background-color: brown; color: #fff;font-weight: bold;">
-                                <i class="fa fa-trash-o" aria-hidden="true"></i> Remove
-                            </button>
-                        </form>
-                        </div>
+                    @if(Auth::check() && Auth::user()->isadmin())
+                        <div style="display: inline-block;">
+                            <form action="{{ route('blogs.destroy', $blog->id) }}" method="post" class="form-inline">
+                                <input type="hidden" name="_method" value="DELETE">
+                                {{ csrf_field() }}
+                                <button type="submit" class="btn btn-danger btn-xs" style="background-color: brown; color: #fff;font-weight: bold;">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i> Remove
+                                </button>
+                            </form>
+                            </div>
 
-                        <a href="{{ route('blogs.edit', $blog->id) }}" role="button" class="btn btn-info btn-xs" style="background-color: lightskyblue;font-weight: bold;"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
-                @endif
+                            <a href="{{ route('blogs.edit', $blog->permalink) }}" role="button" class="btn btn-info btn-xs" style="background-color: lightskyblue;font-weight: bold;"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
+                    @endif
                     <hr>
                 @endforeach
+                <div class="center-pagination">{{ $blogs->appends(request()->except('page'))->links() }}</div>
             @else
                 <div style="text-align: center;">
                        <h2 style="color: #b94a48; text-align: center;">There is no such category!!!</h2>
@@ -50,7 +51,6 @@
                         </a>
                 </div>
             @endif
-
         </div>
     </div>
 
