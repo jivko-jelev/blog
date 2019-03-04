@@ -39,13 +39,12 @@ class UsersController extends Controller
         $img->resize(round($width / $ar), round($height / $ar));
         $img->resizeCanvas(round($nw), round($nh), 'center', false, 'ffffff');
         $img->save('uploads/avatars/' . $filename . $ext);
-        echo $img->width() . 'x' . $img->height();
 
         $user = Auth::user();
         $user->avatar = $filename . $ext;
         $user->update();
 
-        return redirect()->route('profile')->with(['message' => $img->width() . 'x' . $img->height()]);
+        return redirect()->route('profile')->with(['message' => 'Successfully uploaded profile picture.']);
     }
 
     public function index()

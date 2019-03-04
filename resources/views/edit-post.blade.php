@@ -36,7 +36,7 @@
         tinymce.init({
             selector: '#description',  // change this value according to your HTML
             plugins: 'codesample advlist autolink link image lists charmap print preview emoticons textcolor code',
-            height: 480,
+            height: 300,
             fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt',
             toolbar: "undo redo | styleselect | bold italic underline | fontselect | fontsizeselect | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table | code codesample | image emoticons",
             style_formats: [

@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title'){{ Auth::user()->name }}@endsection
+@section('title')Users @endsection
 
 @section('styles')
     <style>

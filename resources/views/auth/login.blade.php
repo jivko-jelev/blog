@@ -1,5 +1,9 @@
 @extends('layouts.master')
 
+@section('title')
+    Login
+@endsection
+
 @section('styles')
     <style type="text/css">
           input#email, input#password {

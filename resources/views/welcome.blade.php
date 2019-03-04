@@ -7,12 +7,12 @@
 @section('content')
     <div class="col-sm-12" style="padding-left: 0; padding-right: 0;">
         @include('partials.left-menu')
-        <div class="col-sm-10">
+        <div class="col-sm-10 col-lg-8">
             @include('partials.session-messages')
             @include('partials.search')
             @if(isset($blogs))
                 @foreach($blogs as $blog)
-                    <a href="{{ route( 'blogs.show', $blog->permalink) }}"><h3 class="blog-title">{!! $blog->printtitle() !!}</h3></a>
+                    <a href="{{ route( 'blogs.show', urlencode($blog->permalink)) }}"><h3 class="blog-title">{!! $blog->printtitle() !!}</h3></a>
                     <span>Posted by
                         <a href="{{ route('profile.user', \App\User::find($blog->user_id)->name) }}"><strong>{{ \App\User::find($blog->user_id)->name }}</strong></a>.
                         <a href="#"><strong>{!! App\Functions::humanReadableDateTime($blog->created_at) !!}</strong></a>.
@@ -47,7 +47,7 @@
                        <h2 style="color: #b94a48; text-align: center;">There is no such category!!!</h2>
                         <a href="{{ redirect()->back()->getTargetUrl() }}" class="btn btn-default btn-lg">
                             <i class="fa fa-arrow-circle-o-left"></i>
-                            Go to Back
+                            Go Back
                         </a>
                 </div>
             @endif

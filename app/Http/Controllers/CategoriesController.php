@@ -34,7 +34,7 @@ class CategoriesController extends Controller
         $category->created_at = Carbon::now();
         $category->save();
 
-        return redirect()->back()->with('message',  'Succesfuly added category');
+        return redirect()->back()->with('message',  'Successfully added category');
     }
 
     public function show($title)
@@ -63,7 +63,7 @@ class CategoriesController extends Controller
         $category->parent_id = null;
         $category->updated_at = Carbon::now();
         $category->update();
-        return redirect()->back()->with('message',  'Succesfuly updated category');
+        return redirect()->back()->with('message',  'Successfully updated category');
     }
 
     public function destroy($id)
@@ -71,6 +71,6 @@ class CategoriesController extends Controller
         $comment = Category::find($id);
         $comment->delete();
 
-        return redirect()->back()->with(['message' =>  'Succesfuly delete category']);
+        return redirect()->back()->with(['message' =>  'Successfully delete category']);
     }
 }

@@ -38,7 +38,7 @@ class BlogsController extends Controller
             return $title;
         }
         $categories = Blog::where('permalink', 'like', $title . '%')->get();
-        $count = 0;
+        $count = 1;
         while ((self::isRepeatingPermalink($categories, $title . '-' . ++$count))) {
         }
         return $title . '-' . $count;
@@ -49,26 +49,27 @@ class BlogsController extends Controller
         $this->validate($request, [
             'category' => 'required',
             'title' => 'required|min:3|max:100',
-            'description' => 'required|max:65535',
+            'description' => 'required|max:1165535',
         ]);
 
         $blog = new Blog;
         $blog->category_id = $request->input('category');
         $blog->title = $request->input('title');
         $blog->description = $request->input('description');
-        $blog->permalink = mb_strtolower(self::getUniquePermalink($request['title']));
+        $blog->permalink = mb_strtolower(urlencode(self::getUniquePermalink($request['title'])));
         $blog->user_id = Auth::id();
         $blog->updated_at = null;
         $blog->save();
 
         $categoryName = Category::find($blog->category_id)->title;
 
-        return redirect('category/' . strtolower($categoryName))->with('message', 'Succesfuly created post');
+        return redirect('category/' . strtolower($categoryName))->with('message', 'Successfully created post');
     }
 
     public function show($id)
     {
-        $blog = Blog::where('permalink', $id)->first();
+        $blog = Blog::where('permalink', urldecode($id))->first();
+//        dd($blog);
         return view('post')->with(['blog' => $blog, 'category_title' => Category::find($blog->category_id)->title]);
     }
 
@@ -155,7 +156,7 @@ class BlogsController extends Controller
         $this->validate($request, [
             'category' => 'required',
             'title' => 'required|min:3|max:100',
-            'description' => 'required|max:65535|min:10',
+            'description' => 'required|max:165535|min:10',
         ]);
 
         $blog = Blog::where('permalink', $permalink)->first();
