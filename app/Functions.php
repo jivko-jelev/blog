@@ -64,6 +64,20 @@ class Functions
         return count($dd1) > 0 ? '?' . implode('&', $dd1) : '';
     }
 
+    public static function pathWithoutSearchAndPage()
+    {
+        $dd1 = [];
+        foreach (explode('&', request()->getQueryString()) as $value) {
+            if ((strlen(substr($value, 0, strpos($value, '='))) + 1 < strlen($value))) {
+                if (substr($value, 0, strpos($value, '=')) != 'page' &&
+                    substr($value, 0, strpos($value, '=')) != 'search') {
+                    $dd1[] = $value;
+                }
+            }
+        }
+        return count($dd1) > 0 ? '?' . implode('&', $dd1) : '';
+    }
+
     public static function humanReadableDateTime($dt)
     {
         return Carbon::create($dt->format('Y'), $dt->format('n'), $dt->format('j'), $dt->format('H'), $dt->format('i'), $dt->format('s'))->diffforhumans();

@@ -17,7 +17,7 @@ class UsersController extends Controller
     public function avatar(Request $request)
     {
         $this->validate($request, [
-            'image' => 'required|mimes:jpeg,bmp,png|dimensions:min_width=100,min_height=200',
+            'image' => 'required|mimes:jpeg,bmp,png|dimensions:min_width=50,min_height=100',
         ]);
         $filename = Auth::user()->name;
         $ext = '.' . $request->file('image')->getClientOriginalExtension();

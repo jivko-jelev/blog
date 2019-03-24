@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>@yield('title') | Blog</title>
+    <title>@yield('title') | Framework Systems for Web Development</title>
     <link rel="stylesheet" href="{{ URL::asset ('css/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ URL::asset ('css/app.css') }}">
     <!-- CSRF Token -->
