@@ -170,7 +170,7 @@ class BlogsController extends Controller
 
     public function edit($permalink)
     {
-        return view('edit-post')->with('blog', Blog::where('permalink', $permalink)->first());
+        return view('edit-post')->with('blog', Blog::where('permalink', urldecode($permalink))->first());
     }
 
     public function destroy($id)

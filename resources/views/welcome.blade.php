@@ -19,7 +19,7 @@
                         In <a href="{{ strtolower(route('blogs.order1', $blog->category())) }}"><strong>{{ $blog->category() }}</strong></a> category.
                             Has
                         @if(count($blog->comments)==0) 0 comments
-                        @else <a href="{{ route( 'blogs.show', $blog->permalink) }}#comments" class="comments">{!! count($blog->comments) !!}@if(count($blog->comments)>1) comments @else comment @endif</a>
+                        @else <a href="{{ route( 'blogs.show', urlencode($blog->permalink)) }}#comments" class="comments">{!! count($blog->comments) !!}@if(count($blog->comments)>1) comments @else comment @endif</a>
                         @endif
                     </span>
                     <div class="blog-description">
@@ -37,7 +37,7 @@
                             </form>
                             </div>
 
-                            <a href="{{ route('blogs.edit', $blog->permalink) }}" role="button" class="btn btn-info btn-xs" style="background-color: lightskyblue;font-weight: bold;"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
+                            <a href="{{ route('blogs.edit', urlencode($blog->permalink)) }}" role="button" class="btn btn-info btn-xs" style="background-color: lightskyblue;font-weight: bold;"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
                     @endif
                     <hr>
                 @endforeach
