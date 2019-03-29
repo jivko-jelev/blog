@@ -8,6 +8,7 @@
             max-width: 100%;
         }
     </style>
+    <script src="{{ URL::to('js/prism.js') }}"></script>
 @endsection
 
 @section('content')
@@ -15,15 +16,17 @@
         @include('partials.left-menu')
         <div class="col-sm-8">
             @include('partials.session-messages')
-            <div class="col-sm-11 col-sm-offset-1" style="border: 1px solid #ccc; padding: 0; margin-bottom: 10px;">
+            <div class="col-sm-12" style="border: 1px solid #ccc; padding: 0; margin-bottom: 10px;">
                 <div class="blog-wrap">
                     <h1 class="blog-title2">{{ $blog->title }}</h1>
                     <div class="blog-info pull-right" style="margin-top: -11px; ">
                         <div class="form-inline">
                             <span style="color: lightgrey; font-weight: normal;">Published {{ App\Functions::humanReadableDateTime($blog->created_at) }}
                                 by </span>
-                            <span style="color: lightgrey; font-weight: normal"><strong><a
-                                            href="{{ URL::to('profile/' . \App\User::find($blog->user_id)->name) }}">{{ \App\User::find($blog->user_id)->name }}</a></strong></span>
+                            <span style="color: lightgrey; font-weight: normal">
+                                <strong><a href="{{ URL::to('profile/' . \App\User::find($blog->user_id)->name) }}">{{ \App\User::find($blog->user_id)->name }}</a>
+                                </strong>
+                            </span>
                         </div>
                     </div>
                     <hr>
@@ -33,7 +36,7 @@
                 </div>
             </div>
             <p><a name="comments"></a></p>
-            <div class="col-sm-11 col-sm-offset-1" style="padding: 0;">
+            <div class="col-sm-12" style="padding: 0;">
                 <h2>Comments</h2>
                 <div class="comments-wrap">
                     @foreach ($blog->comments as $comment)
@@ -52,23 +55,22 @@
                                     </form>
                                 @endif
                             </div>
-                            <div class="comment-body">
-                                {{ $comment->message }}
-                            </div>
+                            <div class="comment-body">{{ $comment->message }}</div>
                         </div>
                     @endforeach
                 </div>
             </div>
             @if(Auth::check())
-                <div class="col-sm-11 col-sm-offset-1" style="padding-left: 0; padding-right: 0;">
+                <div class="col-sm-12" style="padding-left: 0; padding-right: 0;">
                     <div class="panel panel-default">
                         <div class="panel-heading">Add Comment</div>
                         <div class="panel-body">
-                            {{ Form::open(['route' => 'comments.store']) }}
-                            {{ Form::hidden('blog_id', $blog->id) }}
-                            {{ Form::textarea('message', null, array('class' => 'form-control')) }}
-                            {{ Form::submit('Reply', array('class' => 'btn btn-success btn-block')) }}
-                            {{ Form::close() }}
+                            <form action="{{ route('comments.store') }}" method="post">
+                                <input type="hidden" name="blog_id" value="{{ $blog->id }}">
+                                <textarea name="message" class="form-control" cols="30" rows="10"></textarea>
+                                <input type="submit" class="btn btn-success btn-block" value="Send">
+                                {{ csrf_field() }}
+                            </form>
                         </div>
                     </div>
                 </div>

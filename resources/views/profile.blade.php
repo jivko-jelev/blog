@@ -36,32 +36,33 @@
                                     <p>Gender: <strong>{{ Auth::user()->gender }}</strong></p>
                                 </div>
                                 <div style="padding: 10px 10px 10px 20px;">
-                                    {{ Form::open(['route' => 'profile.update']) }}
+                                    <form method="POST" action="{{ route('profile.update') }}">
+                                        {{csrf_field()}}
                                     <div class="form-group row">
-                                        {{ Form::label('email', 'Email', array('class' => 'col-sm-3 form-control-label profile-fields', 'style' => 'margin-top: 14px;')) }}
+                                        <label for="email" class="col-sm-3 form-control-label profile-fields" style="margin-top: 14px;">Email</label>
                                         <div class="col-sm-9">
-                                            {{ Form::text('email', old('email', Auth::user()->email), array('id'=>'email','class' => 'form-control', 'placeholder' => 'Email')) }}
+                                            <input type="email" name="email" id="email" value="{{ old('email', Auth::user()->email) }}" class="form-control" placeholder="Email">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        {{ Form::label('password', 'Password', array('class' => 'col-sm-3 form-control-label profile-fields', 'style' => 'margin-top: 14px;')) }}
+                                        <label for="password" class="col-sm-3 form-control-label profile-fields" style="margin-top: 14px;">Email</label>
                                         <div class="col-sm-9">
-                                            {{ Form::password('password', array('class' => 'form-control', 'placeholder' => 'Password', 'id' => 'password')) }}
+                                            <input type="password" name="password" id="password" class="form-control" placeholder="Password">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        {{ Form::label('password_confirmation', 'Password', array('class' => 'col-sm-3 form-control-label profile-fields', 'style' => 'margin-top: 14px;')) }}
+                                        <label for="password_confirmation" class="col-sm-3 form-control-label profile-fields" style="margin-top: 14px;">Email</label>
                                         <div class="col-sm-9">
-                                            {{ Form::password('password_confirmation', array('class' => 'form-control', 'placeholder' => 'Password Confirmation', 'id' => 'password_confirmation')) }}
+                                            <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" placeholder="Password Confirmation">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <div class="col-sm-4 col-sm-offset-8">
-                                            {{ Form::submit('Save', array('class' => 'btn btn-success btn-block', 'style' => 'float: right;')) }}
+                                            <input type="submit" class="btn btn-success btn-block" style="float: right;" value="Save">
                                         </div>
                                     </div>
-                                    {{ Form::hidden('_method', 'PUT') }}
-                                    {{ Form::close() }}
+                                        {{ method_field('PUT') }}
+                                    </form>
                                 </div>
                             </div>
                         </div>

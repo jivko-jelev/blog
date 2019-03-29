@@ -3,7 +3,7 @@
 @section('title')Create Post @endsection
 
 @section('styles')
-    <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=2zjwtevlfe01bcwqb75sin0jjbaer8nod0itzcpv0mffikph"></script>
+    <script src="{{ URL::to('tinymce/tinymce.min.js?apiKey=2zjwtevlfe01bcwqb75sin0jjbaer8nod0itzcpv0mffikph') }}"></script>
     <script type="text/javascript">
         tinymce.init({
             selector: '#description',
@@ -31,18 +31,21 @@
         @include('partials.left-menu')
         <div class="col-sm-8 col-sm-offset-1">
             @include('partials.session-messages')
-            {{ Form::open(['route' => 'blogs.store'], ['method'=>'post', 'class' => 'form-inline']) }}
-            {{ Form::text('title', null, ['class' => 'form-control', 'placeholder' => 'Title']) }}
-            <select name="category" id="" class="form-control">
-                @foreach(\App\Category::get() as $cat)
-                    <option value="{{ $cat->id }}" @if($cat->id==old('category')) selected="selected" @endif >{{ $cat->title }}</option>
-                @endforeach
-            </select>
-            <div style="margin: 10px 0 10px 0;">
-                {{ Form::textarea('description', old('description'), ['id'=>'description', 'class' => 'form-control', 'style'=> 'margin-top: 20px;']) }}
-            </div>
-            {{ Form::button('Save', array('type'=>'submit','class' => 'btn btn-block btn-info')) }}
-            {{ Form::close() }}
+            <form action="{{ route('blogs.store') }}" method="post" class="form-inline">
+                <div class="form-group">
+                    <input type="text" name="title" class="form-control" placeholder="Title">
+                </div>
+                <select name="category" id="" class="form-control">
+                    @foreach(\App\Category::get() as $cat)
+                        <option value="{{ $cat->id }}" @if($cat->id==old('category')) selected="selected" @endif >{{ $cat->title }}</option>
+                    @endforeach
+                </select>
+                <div style="margin: 10px 0 10px 0;">
+                    <textarea name="description" id="description" class="form-control" style="margin-top: 20px;">{{old('description')}}</textarea>
+                </div>
+                <input type="submit" class="btn btn-block btn-info" value="Save">
+                {{ csrf_field() }}
+            </form>
         </div>
     </div>
 @endsection

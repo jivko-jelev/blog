@@ -159,7 +159,7 @@ class BlogsController extends Controller
             'description' => 'required|max:165535|min:10',
         ]);
 
-        $blog = Blog::where('permalink', $permalink)->first();
+        $blog = Blog::where('permalink', urldecode($permalink))->first();
         $blog->title = $request->get('title');
         $blog->description = $request->get('description');
         $blog->category_id = $request->get('category');

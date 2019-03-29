@@ -3,7 +3,7 @@
 @section('title')Edit Post @endsection
 
 @section('styles')
-    <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=2zjwtevlfe01bcwqb75sin0jjbaer8nod0itzcpv0mffikph"></script>
+    <script src="{{ URL::to('tinymce/tinymce.min.js?apiKey=2zjwtevlfe01bcwqb75sin0jjbaer8nod0itzcpv0mffikph') }}"></script>
 @endsection
 
 
@@ -12,21 +12,21 @@
         @include('partials.left-menu')
         <div class="col-sm-8 col-sm-offset-1">
             @include('partials.session-messages')
-            {{ Form::open(['route' => ['blogs.update', $blog->permalink]], ['class' => 'form-inline']) }}
-            {{ Form::hidden('_method', 'PUT') }}
-            {{--{{ Form::label('title', 'Title') }}--}}
-            {{ Form::text('title', old('title', $blog->title), ['class' => 'form-control']) }}
-            <select name="category" id="" class="form-control">
-                @foreach(\App\Category::get() as $cat)
-                    <option value="{{ $cat->id }}"
-                            @if($cat->id==old('category', $blog->category_id)) selected="selected" @endif >{{ $cat->title }}</option>
-                @endforeach
-            </select>
-            <div style="margin: 10px 0 10px 0;">
-                {{ Form::textarea('description', old('description', $blog->description), ['id'=>'description', 'class' => 'form-control', 'style'=> 'margin-top: 20px;']) }}
-            </div>
-            {{ Form::submit('Save', array('class' => 'btn btn-block btn-info')) }}
-            {{ Form::close() }}
+            <form action="{{ route('blogs.update', urlencode($blog->permalink)) }}" class="form-inline" method="post">
+                {{ method_field('PUT') }}
+                {{ csrf_field() }}
+                <input type="text" name="title" class="form-control" value="{{ old('title', $blog->title) }}">
+                <select name="category" id="" class="form-control">
+                    @foreach(\App\Category::get() as $cat)
+                        <option value="{{ $cat->id }}"
+                                @if($cat->id==old('category', $blog->category_id)) selected="selected" @endif >{{ $cat->title }}</option>
+                    @endforeach
+                </select>
+                <div style="margin: 10px 0 10px 0;">
+                    <textarea name="description" id="description" style="margin-top: 20px;">{{ old('description', $blog->description) }}</textarea>
+                </div>
+                <input type="submit" class="btn btn-block btn-info" value="Save">
+            </form>
         </div>
     </div>
 @endsection

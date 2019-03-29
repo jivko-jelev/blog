@@ -3,6 +3,9 @@
         <div style="display: inline-block;">
             <div class="form-group">
                 <label for="order-by">Order By</label>
+            </div>
+            <div class="form-group">
+                {{--<label for="order-by">Order By</label>--}}
                 <select id="order-by" name="order-by" class="form-control" onchange="document.getElementById('myForm').submit();" style="padding-top: 0px; padding-bottom: 0px; height: 25px;">
                     <option value="New Posts" @if(request()->get('order-by') == 'New Posts') selected="selected" @endif>New Posts</option>
                     <option value="Old Posts" @if(request()->get('order-by') == 'Old Posts') selected="selected" @endif>Old Posts</option>
@@ -10,7 +13,7 @@
                 </select>
             </div>
             <input type="hidden" name="search" value="{{request()->get('search')}}">
-            <div class="form-group" style="top: -1px; position: relative;">
+            <div class="form-group">
                 <select name="num-results" class="form-control" onchange="document.getElementById('myForm').submit();" style="padding-top: 0px; padding-bottom: 0px; height: 25px;">
                     <option value="10" @if(request()->get('num-results') == '10') selected="selected" @endif>10 posts per page</option>
                     <option value="20" @if(request()->get('num-results') == '20') selected="selected" @endif>20 posts per page</option>
