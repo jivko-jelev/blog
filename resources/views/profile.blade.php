@@ -15,7 +15,7 @@
                                     @if(Auth::user()->avatar !== null)
                                         <img src="{{ URL::to('uploads/avatars/' . Auth::user()->avatar) }}" alt="profile-picture-of-user" class="img-responsive" style=" margin: 0 auto">
                                     @else
-                                        <spam><i class="fa fa-user fa-5x" style="color: white; text-align: center; margin: 20px 40px 20px 35px;"></i></spam>
+                                        <span><i class="fa fa-user fa-5x" style="color: white; text-align: center; margin: 20px 40px 20px 35px;"></i></span>
                                     @endif
                                     </p>
                                 </div>

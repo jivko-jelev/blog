@@ -15,23 +15,15 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             @if(Auth::check())
             <ul class="nav navbar-nav">
-                <li><a href="{{ route('blogs.create') }}">Create Post</a></li>
-                @if(Auth::user()->isadmin())
-                    <li><a href="{{ route('admin-users') }}">Users</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Category <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{{ route('category.create') }}">Add</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="{{ route('category.index') }}">Edit / Delete</a></li>
-                        </ul>
-                    </li>
+                @if(Auth::user()->isAdmin())
+                <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
                 @endif
+                <li><a href="{{ route('blogs.create') }}">Create Post</a></li>
             </ul>
             @endif
             <form class="navbar-form navbar-left" method="GET" action="{{ route('blogs.search') }}">
                 <div class="form-group">
-                    <input type="text" name="search" class="form-control" placeholder="Search" style="margin-top: 0px;" @if(request()->get('search') != null) value="{{ request()->get('search') }}" @endif>
+                    <input type="text" name="search" class="form-control" placeholder="Search" style="margin-top: 0px;" @if(request()->get('search') != null) value="{{ request()->get('search') }}" @endif autocomplete="off">
                 </div>
                 <button type="submit" class="btn btn-default" style="margin-top: 0px !important;"><i class="fa fa-search" aria-hidden="true"></i></button>
             </form>

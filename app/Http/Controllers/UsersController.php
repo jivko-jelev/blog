@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Blog;
 use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\Input;
@@ -22,18 +23,18 @@ class UsersController extends Controller
         $filename = Auth::user()->name;
         $ext = '.' . $request->file('image')->getClientOriginalExtension();
 
-        if(Auth::user()->avatar !== null && File::exists('uploads/avatars/' . Auth::user()->avatar)){
+        if (Auth::user()->avatar !== null && File::exists('uploads/avatars/' . Auth::user()->avatar)) {
             unlink('uploads/avatars/' . Auth::user()->avatar);
         }
 
 
-        $img=Image::make(Input::file('image'));
+        $img = Image::make(Input::file('image'));
 
         $width = $img->width();
         $height = $img->height();
         $max_width = 320;
         $max_height = 200;
-        $ar = ($width / $max_width > $height / $max_height) ? ($width / $max_width) : ($height / $max_height) ;
+        $ar = ($width / $max_width > $height / $max_height) ? ($width / $max_width) : ($height / $max_height);
         $nw = $width / $ar;
         $nh = $height / $ar;
         $img->resize(round($width / $ar), round($height / $ar));
@@ -49,12 +50,7 @@ class UsersController extends Controller
 
     public function index()
     {
-        return view('admin-users')->with('users', User::all());
-    }
-
-    public function create()
-    {
-        //
+        return view('admin.users')->with('users', User::all());
     }
 
     public function store(Request $request, $id)
@@ -62,16 +58,21 @@ class UsersController extends Controller
         $this->validate($request, [
             'name' => 'required|min:3|max:15|unique:users,name,' . $id,
             'email' => 'required|email|unique:users,email,' . $id,
+            'password' => 'nullable|same:password-confirmation',
+            'password-confirmation' => 'nullable|same:password',
             'status' => 'required',
         ]);
 
-        $user=User::find($id);
-        $user->name=$request->input('name');
-        $user->email=$request->input('email');
-        $user->status=$request->input('status');
+        $user = User::find($id);
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        if ($request->input('password') !== null) {
+            $user->password = bcrypt($request->input('password'));
+        }
+        $user->status = $request->input('status');
         $user->update();
 
-        return redirect()->route('admin-users')->with(['message' => 'User was successfully updated']);
+        return redirect()->route('users')->with(['message' => 'User was successfully updated']);
     }
 
     public function show()
@@ -84,11 +85,6 @@ class UsersController extends Controller
         return view('profile1')->with('user', User::where('name', $user)->first());
     }
 
-    public function edit($id)
-    {
-        //
-    }
-
     public function update(Request $request)
     {
         $this->validate($request, [
@@ -99,10 +95,10 @@ class UsersController extends Controller
 
         $user = Auth::user();
         $user->email = $request->input('email');
-        if($request->input('password') !== null){
+        if ($request->input('password') !== null) {
             $user->password = bcrypt($request->input('password'));
         }
-        $user->updated_at= Carbon::now();
+        $user->updated_at = Carbon::now();
         $user->save();
         return redirect()->route('profile')->with(['message' => 'User was successfully updated']);
     }
@@ -110,6 +106,25 @@ class UsersController extends Controller
     public function destroy($id)
     {
         User::destroy($id);
-        return redirect()->route('admin-users')->with(['message' => 'User was successfully deleted']);
+        return redirect()->route('users')->with(['message' => 'User was successfully deleted']);
+    }
+
+    public function activity($id)
+    {
+        $user = User::find($id);
+
+        $user_posts = Blog::
+        select('blogs.*', 'categories.title')
+            ->leftJoin('categories', 'categories.id', '=', 'blogs.category_id')
+            ->where('blogs.user_id', $id)
+            ->get();
+
+        $user_comments = User::
+        select('comments.*', 'blogs.title', 'blogs.permalink')
+            ->leftJoin('comments', 'comments.user_id', '=', 'users.id')
+            ->where('comments.user_id', '=', $id)
+            ->leftJoin('blogs', 'blogs.id', '=', 'comments.blog_id')
+            ->get();
+        return view('admin.users-activity')->with(['user' => $user, 'user_posts' => $user_posts, 'user_comments' => $user_comments]);
     }
 }

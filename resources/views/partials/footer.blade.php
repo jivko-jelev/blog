@@ -80,7 +80,7 @@
 
 
             </div><!--/.container-->
-            <h5 style="text-align: center;">All Rights Reserved © 2017 by <a href="#">givko</a></h5>
+            <h5 style="text-align: center;">All Rights Reserved © {{ now()->year }} by <a href="#">givko</a></h5>
         </div><!--/.row outer-->
     </section>
 </footer>

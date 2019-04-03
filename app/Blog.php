@@ -3,6 +3,7 @@
 namespace App;
 
 use Eloquent;
+use Html2Text\Html2Text;
 use URL;
 use Auth;
 
@@ -37,7 +38,7 @@ class Blog extends Eloquent
     public function str_insert(&$str, $searchStr)
     {
         $pos = 0;
-        if($searchStr != null) {
+        if ($searchStr != null) {
             while (stripos($str, $searchStr, $pos) || (strtolower(substr($str, 0, strlen($searchStr))) == strtolower($searchStr))) {
                 $pos = stripos($str, $searchStr, $pos);
                 $pos1 = stripos($str, $searchStr, $pos) + strlen($searchStr);
@@ -61,11 +62,19 @@ class Blog extends Eloquent
     public function printDescription()
     {
         $description = html_entity_decode(strip_tags($this->description));
-        $description= mb_substr($description, 0, 253);
+        $description = new Html2Text($description);
+        $mustShowReadMoreLink = false;
+        if(mb_strlen($description->getText()) > 323){
+            $mustShowReadMoreLink = true;
+        }
+        $description = mb_substr($description->getText(), 0, 323);
         if (request()->get('search') !== null) {
             $this->str_insert($description, request()->get('search'));
         }
-        return $description . '<a href="' . route('blogs.show', $this->permalink) . '">' . (mb_strlen(html_entity_decode(strip_tags($this->description))) >= 253 ? '<strong> Read More&raquo;</strong>' : '') . '</a>';
+        if($mustShowReadMoreLink){
+            $description .= '... <a href="' . route('blogs.show', $this->permalink) . '"><strong> Read More&raquo;</strong>' . '</a>';
+        }
+        return $description;
     }
 
     public function dateCreated()

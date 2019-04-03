@@ -25,9 +25,7 @@
                                 comments @else comment @endif</a>
                         @endif
                     </span>
-                    <div class="blog-description">
-                        {!! $blog->printDescription() !!}
-                    </div>
+                    <div class="blog-description">{!! $blog->printDescription() !!}</div>
 
                     @if(Auth::check() && Auth::user()->isadmin())
                         <div style="display: inline-block;">

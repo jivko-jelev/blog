@@ -165,12 +165,17 @@ class BlogsController extends Controller
         $blog->category_id = $request->get('category');
         $blog->update();
 
-        return redirect()->route('blogs.show', $permalink)->with('message', 'Successfully edited post!');
+        return redirect()->back()->with('message', 'Successfully edited post!');
     }
 
     public function edit($permalink)
     {
-        return view('edit-post')->with('blog', Blog::where('permalink', urldecode($permalink))->first());
+        return view('admin.edit-post')->with('blog', Blog::where('permalink', urldecode($permalink))->first());
+    }
+
+    public function posts()
+    {
+        return view('admin.posts')->with('posts', Blog::all());
     }
 
     public function destroy($id)

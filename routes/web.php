@@ -1,8 +1,9 @@
 <?php
 
+
 Auth::routes();
 
-Route::get('/category/{title?}', 'BlogsController@order')->name('blogs.order1');
+Route::get('/category/{title}', 'BlogsController@order')->name('blogs.order1');
 
 Route::get('/', 'BlogsController@order')->name('blogs.order');
 Route::get('post/{id}', 'BlogsController@show')->name('blogs.show');
@@ -21,16 +22,19 @@ Route::get('/search/', 'BlogsController@search')->name('blogs.search');
 Route::get('/category/{title}/search/', 'BlogsController@search')->name('blogs.search1');
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function() {
-    Route::get('category/create', 'CategoriesController@create')->name('category.create');
+    Route::get('dashboard', 'AdminController@index')->name('dashboard');
+
+    Route::get('categories', 'CategoriesController@create')->name('categories');
     Route::post('category', 'CategoriesController@store')->name('category.store');
-    Route::get('categorylist', 'CategoriesController@index')->name('category.index');
     Route::put('category/{id}', 'CategoriesController@update')->name('category.update');
     Route::delete('category/{id}', 'CategoriesController@destroy')->name('category.destroy');
-    Route::get('users', 'UsersController@index')->name('admin-users');
 
-    Route::put('store/{id}', 'UsersController@store')->name('user.store');
-    Route::delete('destroy/{id}', 'UsersController@destroy')->name('user.destroy');
+    Route::get('users', 'UsersController@index')->name('users');
+    Route::put('users/{id}', 'UsersController@store')->name('user.store');
+    Route::delete('users/{id}', 'UsersController@destroy')->name('user.destroy');
+    Route::get('users/{id}/activity', 'UsersController@activity')->name('users.activity');
 
+    Route::get('posts', 'BlogsController@posts')->name('posts');
     Route::get('post/{permalink}/edit', 'BlogsController@edit')->name('blogs.edit');
     Route::delete('post/{id}', 'BlogsController@destroy')->name('blogs.destroy');
     Route::put('post/{permalink}', 'BlogsController@update')->name('blogs.update');

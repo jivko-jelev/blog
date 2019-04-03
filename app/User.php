@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Auth;
+use Illuminate\Support\Facades\URL;
 
 class User extends Authenticatable
 {
@@ -60,6 +61,11 @@ class User extends Authenticatable
     public function dateCreated()
     {
         return $this->created_at->format('j M, Y');
+    }
+
+    public function avatar()
+    {
+        return $this->avatar != null ? '<img src="' . URL::to('uploads/avatars/' . $this->avatar) . '" class="avatar-admin">' : '<span><i class="fa fa-user fa-3x"></i></span>';
     }
 
 }
