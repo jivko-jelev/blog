@@ -13,7 +13,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('posts') }}">
-                    <i class="nav-icon fa fa-list-alt"></i> Posts
+                    <i class="nav-icon icon-note"></i> Posts
                 </a>
             </li>
             <li class="nav-item">

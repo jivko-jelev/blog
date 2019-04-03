@@ -8,9 +8,11 @@ use Auth;
 use DB;
 use App\Functions;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 
 class BlogsController extends Controller
@@ -156,13 +158,16 @@ class BlogsController extends Controller
         $this->validate($request, [
             'category' => 'required',
             'title' => 'required|min:3|max:100',
-            'description' => 'required|max:165535|min:10',
+            'description' => 'required|max:3365535|min:10',
         ]);
 
         $blog = Blog::where('permalink', urldecode($permalink))->first();
         $blog->title = $request->get('title');
         $blog->description = $request->get('description');
         $blog->category_id = $request->get('category');
+//        dd(strtotime(date('d-m-Y H:i', $request->get('date-input'))));
+//        $dtime = \DateTime::createFromFormat("d-m-Y H:i", $request->get('date-input'));
+//        $blog->updated_at = $dtime->getTimestamp();
         $blog->update();
 
         return redirect()->back()->with('message', 'Successfully edited post!');

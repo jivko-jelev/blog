@@ -30,15 +30,17 @@
                             <div class="card-body">
                                 <table class="table table-responsive-sm table-striped">
                                     <thead>
-                                    <th>Post ID</th>
+                                    <th>#</th>
+                                    <th>ID</th>
                                     <th>Category</th>
                                     <th>Created at</th>
                                     <th>Edit</th>
                                     <th>Delete</th>
                                     </thead>
                                     <tbody>
-                                    @foreach($posts as $post)
+                                    @foreach($posts as $key=>$post)
                                         <tr>
+                                            <td>{{ $key + 1 }}</td>
                                             <td>{{ $post->id }}</td>
                                             <td><a href="{{ route('blogs.show', $post->permalink) }}">{{ $post->title }}</a></td>
                                             <td>{{ $post->created_at }}</td>
