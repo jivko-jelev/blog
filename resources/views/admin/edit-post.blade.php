@@ -54,7 +54,7 @@
                                     <div class="form-group row">
                                         <label class="col-sm-2 col-form-label" for="input-small">Date</label>
                                         <div class="col-sm-10">
-                                            <input class="form-control" id="date-input" type="text" name="date-input" placeholder="date" value="{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $blog->updated_at)->format('d-m-Y H:i') }}">
+                                            <input class="form-control" id="date-input" type="text" name="date-input" placeholder="date" value="{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $blog->updated_at)->format('d.m.Y H:i') }}">
                                         </div>
                                     </div>
 

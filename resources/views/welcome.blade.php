@@ -17,7 +17,7 @@
                     <span>Posted by
                         <a href="{{ route('profile.user', \App\User::find($blog->user_id)->name) }}"><strong>{{ \App\User::find($blog->user_id)->name }}</strong></a>.
                         <a href="#"
-                           title="{{ $blog->created_at->format('d-m-Y') }}"><strong>{!! App\Functions::humanReadableDateTime($blog->created_at) !!}</strong></a>.
+                           title="{{ $blog->updated_at->format('d-m-Y') }}"><strong>{!! App\Functions::humanReadableDateTime($blog->updated_at) !!}</strong></a>.
                         In <a href="{{ strtolower(route('blogs.order1', $blog->category())) }}"><strong>{{ $blog->category() }}</strong></a> category. Has
                         @if(count($blog->comments)==0) 0 comments
                         @else <a href="{{ route( 'blogs.show', urlencode($blog->permalink)) }}#comments"

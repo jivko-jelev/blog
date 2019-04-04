@@ -62,13 +62,13 @@
                                                     <option value="255" @if($user->status == 255) selected="selected" @endif>Blocked</option>
                                                 </select>
                                             </td>
-                                            <td><button type="submit" class="btn btn-primary btn-sm btn-block"><i class="fa fa-pencil" aria-hidden="true"></i> Update</button></td>
+                                            <td><button type="submit" class="btn btn-primary btn-block"><i class="fa fa-pencil" aria-hidden="true"></i> Update</button></td>
                                         </form>
                                         <td>
                                             <form action="{{ route('user.destroy', $user->id) }}" method="POST">
                                                 {{ csrf_field() }}
                                                 <input type="hidden" name="_method" value="DELETE">
-                                                <button type="submit" class="btn btn-danger btn-sm btn-block" @if($user->isAdmin()) disabled="disabled" @endif><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
+                                                <button type="submit" class="btn btn-danger btn-block" @if($user->isAdmin()) disabled="disabled" @endif><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
                                             </form>
                                         </td>
                                         <td><a href="{{ route('users.activity', $user->id) }}">View</a></td>

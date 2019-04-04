@@ -71,7 +71,4 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ URL::to('/node_modules/chart.js/dist/Chart.min.js') }}"></script>
-    <script src="{{ URL::to('/node_modules/@coreui/coreui-plugin-chartjs-custom-tooltips/dist/js/custom-tooltips.min.js') }}"></script>
-    <script src="{{ URL::to('/js/main.js') }}"></script>
 @endsection

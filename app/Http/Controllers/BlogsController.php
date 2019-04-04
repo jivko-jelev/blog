@@ -92,7 +92,7 @@ class BlogsController extends Controller
             $blogs = ($category_id !== null ?
                 Blog::whereraw('category_id = ? AND ( title LIKE ? OR description LIKE ? )', [$category_id, '%' . $request->get('search') . '%', '%' . $request->get('search') . '%']) :
                 Blog::whereraw('title LIKE ? OR description LIKE ?', ['%' . $request->get('search') . '%', '%' . $request->get('search') . '%'])
-                    ->orderby('created_at', $orderBy)
+                    ->orderby('updated_at', $orderBy)
                     ->paginate(self::getNumResults()));
         }
 
@@ -127,9 +127,9 @@ class BlogsController extends Controller
                         ->orderBy('user_comments', 'desc')
                         ->paginate(self::getNumResults());
                 } else if ($request['order-by'] == 'Old Posts') {
-                    $blogs = Blog::where('category_id', $category_id)->orderBy('created_at', 'asc')->paginate(self::getNumResults());
+                    $blogs = Blog::where('category_id', $category_id)->orderBy('updated_at', 'asc')->paginate(self::getNumResults());
                 } else {
-                    $blogs = Blog::where('category_id', $category_id)->orderBy('created_at', 'desc')->paginate(self::getNumResults());
+                    $blogs = Blog::where('category_id', $category_id)->orderBy('updated_at', 'desc')->paginate(self::getNumResults());
                 }
             }
         } else {
@@ -141,9 +141,9 @@ class BlogsController extends Controller
                     ->orderBy('user_comments', 'desc')
                     ->paginate(self::getNumResults());
             } else if ($request['order-by'] == 'Old Posts') {
-                $blogs = Blog::orderBy('created_at', 'asc')->paginate(self::getNumResults());
+                $blogs = Blog::orderBy('updated_at', 'asc')->paginate(self::getNumResults());
             } else {
-                $blogs = Blog::orderBy('created_at', 'desc')->paginate(self::getNumResults());
+                $blogs = Blog::orderBy('updated_at', 'desc')->paginate(self::getNumResults());
             }
         }
 
@@ -165,9 +165,8 @@ class BlogsController extends Controller
         $blog->title = $request->get('title');
         $blog->description = $request->get('description');
         $blog->category_id = $request->get('category');
-//        dd(strtotime(date('d-m-Y H:i', $request->get('date-input'))));
-//        $dtime = \DateTime::createFromFormat("d-m-Y H:i", $request->get('date-input'));
-//        $blog->updated_at = $dtime->getTimestamp();
+        $dtime = \DateTime::createFromFormat("d.m.Y H:i", $request->get('date-input'));
+        $blog->updated_at = $dtime->getTimestamp();
         $blog->update();
 
         return redirect()->back()->with('message', 'Successfully edited post!');

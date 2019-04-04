@@ -32,13 +32,14 @@ class UsersController extends Controller
 
         $width = $img->width();
         $height = $img->height();
-        $max_width = 320;
+        $max_width = 200;
         $max_height = 200;
-        $ar = ($width / $max_width > $height / $max_height) ? ($width / $max_width) : ($height / $max_height);
-        $nw = $width / $ar;
-        $nh = $height / $ar;
-        $img->resize(round($width / $ar), round($height / $ar));
-        $img->resizeCanvas(round($nw), round($nh), 'center', false, 'ffffff');
+        $ar = ($width / $max_width < $height / $max_height) ? ($width / $max_width) : ($height / $max_height);
+        $nw = round($width / $ar);
+        $nh = round($height / $ar);
+        $new_size = $nw < $nh ? $nw : $nh;
+        $img->resize($nw, $nh);
+        $img->resizeCanvas($new_size, $new_size, 'top', false, 'ffffff');
         $img->save('uploads/avatars/' . $filename . $ext);
 
         $user = Auth::user();
