@@ -24,6 +24,7 @@
     <!-- Main styles for this application-->
     <link href="{{ URL::to('/css/style.css') }}" rel="stylesheet">
     <link href="{{ URL::to('/vendors/pace-progress/css/pace.min.css') }}" rel="stylesheet">
+    <link rel="icon" href="http://127.0.0.1:8000/iconfinder_laravel_1006880.png">
     <!-- Global site tag (gtag.js) - Google Analytics-->
     <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-118965717-3"></script>
     <script>

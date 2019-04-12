@@ -34,6 +34,7 @@
                                     <thead>
                                     <th>Post ID</th>
                                     <th>Category</th>
+                                    <th>Title</th>
                                     <th>Created at</th>
                                     <th>Delete</th>
                                     </thead>
@@ -41,6 +42,7 @@
                                     @foreach($user_posts as $user_post)
                                         <tr>
                                             <td>{{ $user_post->id }}</td>
+                                            <td>{{ $user_post->category }}</td>
                                             <td><a href="{{ route('blogs.show', $user_post->permalink) }}">{{ $user_post->title }}</a></td>
                                             <td>{{ $user_post->created_at }}</td>
                                             <td>

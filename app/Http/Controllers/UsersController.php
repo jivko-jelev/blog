@@ -20,13 +20,12 @@ class UsersController extends Controller
         $this->validate($request, [
             'image' => 'required|mimes:jpeg,bmp,png|dimensions:min_width=50,min_height=100',
         ]);
-        $filename = Auth::user()->name;
+        $filename = Auth::user()->name . '-' . md5(Auth::user()->id);
         $ext = '.' . $request->file('image')->getClientOriginalExtension();
 
         if (Auth::user()->avatar !== null && File::exists('uploads/avatars/' . Auth::user()->avatar)) {
             unlink('uploads/avatars/' . Auth::user()->avatar);
         }
-
 
         $img = Image::make(Input::file('image'));
 
@@ -115,7 +114,7 @@ class UsersController extends Controller
         $user = User::find($id);
 
         $user_posts = Blog::
-        select('blogs.*', 'categories.title')
+        select('blogs.*', 'categories.title as category')
             ->leftJoin('categories', 'categories.id', '=', 'blogs.category_id')
             ->where('blogs.user_id', $id)
             ->get();

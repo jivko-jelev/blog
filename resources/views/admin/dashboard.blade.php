@@ -45,6 +45,18 @@
                         <div class="card text-white bg-success">
                             <div class="card-body">
                                 <div class="h1 text-muted text-right mb-4">
+                                    <i class="nav-icon fa fa-list-alt"></i>
+                                </div>
+                                <div class="text-value">{{ \App\Category::all()->count() }}</div>
+                                <small class="text-muted text-uppercase font-weight-bold">Categories</small>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col-->
+                    <div class="col-sm-6 col-md-2">
+                        <div class="card text-white bg-success">
+                            <div class="card-body">
+                                <div class="h1 text-muted text-right mb-4">
                                     <i class="icon-note"></i>
                                 </div>
                                 <div class="text-value">{{ \App\Blog::all()->count() }}</div>

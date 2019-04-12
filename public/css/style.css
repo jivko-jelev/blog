@@ -16172,15 +16172,25 @@ body {
     text-align: center;
 }
 
-.avatar-admin{
-    width:50px;
+.avatar-admin {
+    width: 50px;
     border-radius: 25px;
 }
 
-.admin-users td{
+.admin-users td {
     padding-top: 10px;
 }
 
-.avatar-td{
+.avatar-td {
     padding-top: 2px !important;
+}
+
+.ml-auto, .mx-auto {
+    height: 50px;
+}
+
+.img-avatar1 {
+    text-align: center;
+    margin: 20px 40px 20px 35px;
+    color: #0b4d75;
 }

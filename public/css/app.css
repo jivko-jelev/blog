@@ -143,3 +143,7 @@ footer h5{
     border-top: 5px solid green;
     margin: 0;
 }
+
+.blog-description img{
+    max-width: 100%;
+}

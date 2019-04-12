@@ -44,7 +44,7 @@ trait AuthenticatesUsers
         }
 
         $d=DB::table('users')
-            ->where($this->username(), '=', $request[$this->username()])
+            ->where($this->username(), $request[$this->username()])
             ->where('status', '255')
             ->first();
         if(isset($d) && Hash::check($request['password'], $d->password)){

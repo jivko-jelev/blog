@@ -4,6 +4,7 @@
 Auth::routes();
 
 Route::get('/category/{title}', 'BlogsController@order')->name('blogs.order1');
+Route::get('/search/', 'BlogsController@search')->name('blogs.search');
 
 Route::get('/', 'BlogsController@order')->name('blogs.order');
 Route::get('post/{id}', 'BlogsController@show')->name('blogs.show');
@@ -16,11 +17,10 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('comments', 'CommentsController@store')->name('comments.store');
     Route::delete('comments/{id}', 'CommentsController@destroy')->name('comments.destroy');
 
-    Route::get('profile/', 'UsersController@show')->name('profile')->middleware('auth');
-    Route::put('profile/update', 'UsersController@update')->name('profile.update')->middleware('auth');
-    Route::put('profile', 'UsersController@avatar')->name('add.profile.photo')->middleware('auth');
+    Route::get('profile/', 'UsersController@show')->name('profile');
+    Route::put('profile/update', 'UsersController@update')->name('profile.update');
+    Route::put('profile', 'UsersController@avatar')->name('add.profile.photo');
 
-    Route::get('/search/', 'BlogsController@search')->name('blogs.search');
     Route::get('/category/{title}/search/', 'BlogsController@search')->name('blogs.search1');
 });
 
