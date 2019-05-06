@@ -19,7 +19,7 @@
             <div class="col-sm-12" style="border: 1px solid #ccc; padding: 0; margin-bottom: 10px;">
                 <div class="blog-wrap">
                     <h1 class="blog-title2">{{ $blog->title }}</h1>
-                    <div class="blog-info pull-right" style="margin-top: -11px; ">
+                    <div class="blog-info pull-right" style="margin-top: -12px; ">
                         <div class="form-inline">
                             <span style="color: lightgrey; font-weight: normal;">Published {{ App\Functions::humanReadableDateTime($blog->updated_at) }}
                                 by </span>

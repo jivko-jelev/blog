@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title')Users @endsection
+@section('title')Edit Post @endsection
 
 @section('styles')
     <style>
@@ -24,7 +24,7 @@
         <div class="container-fluid">
             <div class="animated fadeIn">
 
-                <div class="col-lg-8">
+                <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header">
                             <i class="fa fa-align-justify"></i> Edit Post - <strong>{{ $blog->title }}</strong></div>

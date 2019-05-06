@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-    {{ isset($title) ? $title : 'Welcome'  }}
+    {{ $title ?? 'Welcome'  }}
 @endsection
 
 @section('content')
@@ -15,7 +15,7 @@
                     <a href="{{ route( 'blogs.show', urlencode($blog->permalink)) }}"><h3
                                 class="blog-title">{!! $blog->printtitle() !!}</h3></a>
                     <span>Posted by
-                        <a href="{{ route('profile.user', \App\User::find($blog->user_id)->name) }}"><strong>{{ \App\User::find($blog->user_id)->name }}</strong></a>.
+                        <a href="{{ route('profile.user', \App\User::find($blog->user_id)->name) }}"><strong>{{ $blog->name }}</strong></a>.
                         <a href="#"
                            title="{{ $blog->updated_at->format('d-m-Y') }}"><strong>{!! App\Functions::humanReadableDateTime($blog->updated_at) !!}</strong></a>.
                         In <a href="{{ strtolower(route('blogs.order1', $blog->category())) }}"><strong>{{ $blog->category() }}</strong></a> category. Has
